@@ -1,0 +1,23 @@
+* {
+    box-sizing: border-box;
+}
+#name {
+    color: blue;
+    display: flex;
+    justify-content: center;
+}
+#board {
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    width: 402px;
+    height: 402px;
+    border: 1px solid red;
+}
+square {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    background-color: gray;
+    display: flex;
+}
