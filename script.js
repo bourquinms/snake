@@ -28,11 +28,14 @@ function initialState() {
 }  
 
 let gameState = {
-    apple: [document.getElementById('208').id],
-    snake: snake
+    apple: document.getElementById('208').id,
+    snake: snake,
+    board: board,
+    lastSnake: snake,
+    newSnake: snake
 }  
 
-document.getElementById(gameState.apple[0]).className = 'apple'
+document.getElementById(gameState.apple).className = 'apple'
 document.getElementById('up').addEventListener('click', function() {
     if (gameState.snake.direction !== 20) {
         gameState.snake.direction = -20
@@ -55,33 +58,45 @@ document.getElementById('right').addEventListener('click', function() {
 })        
 
 function snakeMove() {
-    let lastSnake = gameState.snake.snakeBody[0]
-    document.getElementById(`${lastSnake}`).className = 'notSnake'
-    newSnake = +gameState.snake.snakeBody[gameState.snake.snakeBody.length - 1] + gameState.snake.direction
-    gameState.snake.snakeBody[gameState.snake.snakeBody.length - 1] = `${newSnake}`
-    document.getElementById(gameState.snake.snakeBody).className = 'snakeBody'
-    console.log(gameState.snake.snakeBody)
-    console.log(newSnake)
+    gameState.lastSnake = gameState.snake.snakeBody[0]
+    //document.getElementById(`${gameState.lastSnake}`).className = 'notSnake'
+    gameState.newSnake = +gameState.snake.snakeBody[gameState.snake.snakeBody.length - 1] + gameState.snake.direction
+    gameState.snake.snakeBody[gameState.snake.snakeBody.length - 1] = `${gameState.newSnake}`
+    eatApple()
+    document.getElementById(gameState.snake.snakeBody[gameState.snake.snakeBody.length - 1]).className = 'snakeBody'
 }
 
-//unction eatApple() {
-//    if (newSnake)
-//}
+
 setInterval(function() {snakeMove();
   }, 300);
 function math () {
     return Math.floor(Math.random() * 400)
 }
 function makeApple () {
-    let apple = math()
-    for ( i = 0, i < gameState.snake.snakeBody.length, i++) {
-        
+    let apple = math();
+    for (i = 0; i < gameState.snake.snakeBody.length; i++) {
+        if (+gameState.snake.snakeBody[i] !== apple) {
+            gameState.apple = document.getElementById(`${apple}`)
+            console.log(gameState.apple)
+            document.getElementById(`${apple}`).className = 'apple'
+            return
+        }
+        else makeApple()
     }
 }
+function eatApple () {
+    if (document.getElementById(gameState.newSnake).className !== 'apple') {
+        document.getElementById(`${gameState.lastSnake}`).className = 'notSnake'
+        }
+    else {
+        //gameState.snake.snakeBody.push(`${gameState.lastSnake} `)
+        makeApple()
+        console.log(gameState.snake.snakeBody)
+    }
+}    
 function snakeCheck() {
     
 }
-
 
 
 
